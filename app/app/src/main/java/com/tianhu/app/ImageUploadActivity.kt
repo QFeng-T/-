@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class ImageUploadActivity : AppCompatActivity() {
@@ -23,9 +24,25 @@ class ImageUploadActivity : AppCompatActivity() {
     private lateinit var imagePreview: android.widget.RelativeLayout
     private lateinit var progressBar: ProgressBar
 
-    private val REQUEST_CAMERA = 1
-    private val REQUEST_GALLERY = 2
     private var selectedImageUri: Uri? = null
+
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val bitmap = result.data?.extras?.get("data") as Bitmap
+            imageView.setImageBitmap(bitmap)
+            imagePreview.visibility = android.view.View.VISIBLE
+            recognizeButton.visibility = android.view.View.VISIBLE
+        }
+    }
+
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            selectedImageUri = result.data?.data
+            imageView.setImageURI(selectedImageUri)
+            imagePreview.visibility = android.view.View.VISIBLE
+            recognizeButton.visibility = android.view.View.VISIBLE
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +70,12 @@ class ImageUploadActivity : AppCompatActivity() {
 
         cameraButton.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, REQUEST_CAMERA)
+            cameraLauncher.launch(intent)
         }
 
         galleryButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, REQUEST_GALLERY)
+            galleryLauncher.launch(intent)
         }
 
         deleteButton.setOnClickListener {
@@ -72,27 +89,6 @@ class ImageUploadActivity : AppCompatActivity() {
         recognizeButton.setOnClickListener {
             if (selectedImageUri != null) {
                 recognizeImage()
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK) {
-            when (requestCode) {
-                REQUEST_CAMERA -> {
-                    val bitmap = data?.extras?.get("data") as Bitmap
-                    imageView.setImageBitmap(bitmap)
-                    imagePreview.visibility = android.view.View.VISIBLE
-                    recognizeButton.visibility = android.view.View.VISIBLE
-                }
-                REQUEST_GALLERY -> {
-                    selectedImageUri = data?.data
-                    imageView.setImageURI(selectedImageUri)
-                    imagePreview.visibility = android.view.View.VISIBLE
-                    recognizeButton.visibility = android.view.View.VISIBLE
-                }
             }
         }
     }

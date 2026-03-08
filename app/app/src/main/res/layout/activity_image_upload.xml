@@ -23,7 +23,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:drawableLeft="@android:drawable/ic_dialog_alert"
+            android:drawableLeft="@drawable/ic_back"
             android:drawableTint="#FFFFFF"
             android:drawablePadding="8dp" />
 
@@ -42,7 +42,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:drawableLeft="@android:drawable/ic_dialog_info"
+            android:drawableLeft="@drawable/ic_info"
             android:drawableTint="#FFFFFF"
             android:drawablePadding="8dp" />
 

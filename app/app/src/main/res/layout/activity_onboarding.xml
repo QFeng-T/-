@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_background">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/pageIndicators" />
+
+    <LinearLayout
+        android:id="@+id/pageIndicators"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:id="@+id/pageIndicator1"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_gallery"
+            app:tint="@color/primary"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:id="@+id/pageIndicator2"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_gallery"
+            app:tint="@color/text_tertiary"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:id="@+id/pageIndicator3"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_gallery"
+            app:tint="@color/text_tertiary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="32dp"
+        android:paddingBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/skipButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳过"
+            android:textSize="16sp"
+            android:textColor="@color/text_secondary"
+            android:layout_gravity="center_vertical"
+            android:padding="8dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="下一步"
+            android:background="@drawable/btn_primary"
+            android:textColor="@color/white"
+            android:paddingHorizontal="24dp"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/agreeButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="同意并继续"
+            android:background="@drawable/btn_primary"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

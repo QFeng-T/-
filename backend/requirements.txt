@@ -1,9 +1,9 @@
 fastapi
 uvicorn
 pydantic
-pydantic-settings
 pillow
 python-multipart
 mysql-connector-python
-sqlalchemy
 torch
+numpy
+aiofiles

@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">FreshID</string>
+    
+    <string name="home">首頁</string>
+    <string name="recognize">識別</string>
+    <string name="history">歷史</string>
+    <string name="settings">設定</string>
+    <string name="user">用戶</string>
+    
+    <string name="take_photo">拍照識別</string>
+    <string name="choose_from_gallery">相簿選擇</string>
+    <string name="recognize_result">識別結果</string>
+    <string name="confidence">信賴度</string>
+    <string name="nutrition_info">營養資訊</string>
+    <string name="eating_advice">食用建議</string>
+    <string name="collect">收藏</string>
+    <string name="collected">已收藏</string>
+    <string name="share">分享</string>
+    <string name="recognize_again">再識別一次</string>
+    
+    <string name="history_records">歷史記錄</string>
+    <string name="no_records">暫無識別記錄</string>
+    <string name="go_recognize">快去試試圖像識別吧！</string>
+    <string name="clear_all">清空全部</string>
+    <string name="confirm_clear">是否清空所有歷史記錄？</string>
+    <string name="confirm_delete">是否刪除該記錄？</string>
+    <string name="delete">刪除</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">確認</string>
+    
+    <string name="user_management">用戶管理</string>
+    <string name="login">登入</string>
+    <string name="logout">登出</string>
+    <string name="edit_profile">編輯資料</string>
+    <string name="nickname">暱稱</string>
+    <string name="avatar">頭像</string>
+    <string name="phone_login">手機號登入</string>
+    <string name="wechat_login">WeChat登入</string>
+    <string name="alipay_login">支付寶登入</string>
+    <string name="guest_mode">訪客模式</string>
+    <string name="recognized_count">已識別果蔬數量</string>
+    <string name="collected_count">收藏數量</string>
+    
+    <string name="settings_title">設定</string>
+    <string name="language">語言</string>
+    <string name="simplified_chinese">簡體中文</string>
+    <string name="traditional_chinese">繁體中文</string>
+    <string name="english">英文</string>
+    <string name="auto_save_history">自動保存歷史</string>
+    <string name="cloud_sync">雲端同步</string>
+    <string name="check_update">檢查更新</string>
+    <string name="about_us">關於我們</string>
+    <string name="version">版本</string>
+    <string name="developer">開發者</string>
+    <string name="privacy_policy">隱私政策</string>
+    <string name="user_feedback">用戶回饋</string>
+    <string name="current_version">當前為最新版本</string>
+    <string name="new_version_found">發現新版本</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_later">稍後更新</string>
+    
+    <string name="privacy_policy_title">隱私政策</string>
+    <string name="privacy_policy_content">歡迎使用FreshID！我們非常重視您的隱私保護。\n\n1. 資訊收集：我們僅收集必要的識別記錄和用戶資訊，用於提供更好的服務體驗。\n\n2. 圖片處理：您拍攝或選擇的圖片僅存儲在本地設備，未經您的同意不會上傳到任何伺服器。\n\n3. 數據安全：我們採用加密技術保護您的數據安全，確保您的資訊不會被洩露。\n\n4. 用戶權利：您可以隨時查看、編輯或刪除您的個人資訊和識別記錄。\n\n5. 更新通知：我們可能會更新隱私政策，重大變更時會通知您。\n\n感謝您信任FreshID！</string>
+    <string name="agree">同意</string>
+    <string name="disagree">不同意</string>
+    
+    <string name="guide_page_1_title">智能識別</string>
+    <string name="guide_page_1_desc">一鍵識別果蔬種類和新鮮度，輕鬆辨識食材</string>
+    <string name="guide_page_2_title">營養資訊</string>
+    <string name="guide_page_2_desc">獲取詳細的果蔬營養數據和健康食用建議</string>
+    <string name="guide_page_3_title">歷史記錄</string>
+    <string name="guide_page_3_desc">保存識別歷史，收藏喜愛的果蔬，方便查看</string>
+    <string name="skip">跳過</string>
+    <string name="next">下一步</string>
+    <string name="start_use">開始使用</string>
+    
+    <string name="camera_permission_required">需要相機權限</string>
+    <string name="camera_permission_message">開啟相機權限可體驗拍照識別，點擊前往設定</string>
+    <string name="storage_permission_required">需要存儲權限</string>
+    <string name="storage_permission_message">開啟存儲權限可保存識別記錄</string>
+    <string name="gallery_permission_required">需要相簿權限</string>
+    <string name="gallery_permission_message">開啟相簿權限可從相簿選擇圖片</string>
+    <string name="go_to_settings">前往設定</string>
+    
+    <string name="image_too_small">圖片尺寸過小，請調整角度</string>
+    <string name="image_too_large">圖片尺寸過大，請重新拍攝</string>
+    <string name="image_blurry">圖片模糊，請重新拍攝</string>
+    <string name="not_fruit_vegetable">未識別到果蔬，請確保果蔬佔圖片主體</string>
+    <string name="recognize_timeout">識別超時，請檢查網路狀態或重新嘗試</string>
+    <string name="network_error">網路異常，已切換至本地識別</string>
+    <string name="model_load_failed">模型載入失敗，正在下載最新模型</string>
+    <string name="re_recognize">重新識別</string>
+    
+    <string name="storage_full">存儲空間不足，無法保存識別記錄</string>
+    <string name="clear_cache">清理快取</string>
+    <string name="clear_now">立即清理</string>
+    
+    <string-array name="fruit_vegetable_names">
+        <item>蘋果</item>
+        <item>香蕉</item>
+        <item>柳橙</item>
+        <item>西瓜</item>
+        <item>草莓</item>
+        <item>葡萄</item>
+        <item>番茄</item>
+        <item>黃瓜</item>
+        <item>胡蘿蔔</item>
+        <item>青花菜</item>
+        <item>白菜</item>
+        <item>菠菜</item>
+        <item>馬鈴薯</item>
+        <item>洋蔥</item>
+        <item>大蒜</item>
+    </string-array>
+</resources>

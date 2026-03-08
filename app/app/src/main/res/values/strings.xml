@@ -1,3 +1,151 @@
 <resources>
-    <string name="app_name">app</string>
+    <string name="app_name">FreshID</string>
+    
+    <string name="home">首页</string>
+    <string name="recognize">识别</string>
+    <string name="history">历史</string>
+    <string name="settings">设置</string>
+    <string name="user">用户</string>
+    
+    <string name="take_photo">拍照识别</string>
+    <string name="choose_from_gallery">相册选择</string>
+    <string name="recognize_result">识别结果</string>
+    <string name="confidence">置信度</string>
+    <string name="nutrition_info">营养信息</string>
+    <string name="eating_advice">食用建议</string>
+    <string name="collect">收藏</string>
+    <string name="collected">已收藏</string>
+    <string name="share">分享</string>
+    <string name="recognize_again">再识别一次</string>
+    
+    <string name="history_records">历史记录</string>
+    <string name="no_records">暂无识别记录</string>
+    <string name="go_recognize">快去试试图像识别吧！</string>
+    <string name="clear_all">清空全部</string>
+    <string name="confirm_clear">是否清空所有历史记录？</string>
+    <string name="confirm_delete">是否删除该记录？</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    
+    <string name="user_management">用户管理</string>
+    <string name="login">登录</string>
+    <string name="logout">退出登录</string>
+    <string name="edit_profile">编辑资料</string>
+    <string name="nickname">昵称</string>
+    <string name="avatar">头像</string>
+    <string name="phone_login">手机号登录</string>
+    <string name="wechat_login">微信登录</string>
+    <string name="alipay_login">支付宝登录</string>
+    <string name="guest_mode">游客模式</string>
+    <string name="recognized_count">已识别果蔬数量</string>
+    <string name="collected_count">收藏数量</string>
+    
+    <string name="settings_title">设置</string>
+    <string name="language">语言</string>
+    <string name="simplified_chinese">简体中文</string>
+    <string name="traditional_chinese">繁体中文</string>
+    <string name="english">英文</string>
+    <string name="auto_save_history">自动保存历史</string>
+    <string name="cloud_sync">云端同步</string>
+    <string name="check_update">检查更新</string>
+    <string name="about_us">关于我们</string>
+    <string name="version">版本</string>
+    <string name="developer">开发者</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="user_feedback">用户反馈</string>
+    <string name="current_version">当前为最新版本</string>
+    <string name="new_version_found">发现新版本</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_later">稍后更新</string>
+    
+    <string name="privacy_policy_title">隐私政策</string>
+    <string name="privacy_policy_content">欢迎使用FreshID！我们非常重视您的隐私保护。\n\n1. 信息收集：我们仅收集必要的识别记录和用户信息，用于提供更好的服务体验。\n\n2. 图片处理：您拍摄或选择的图片仅存储在本地设备，未经您的同意不会上传到任何服务器。\n\n3. 数据安全：我们采用加密技术保护您的数据安全，确保您的信息不会被泄露。\n\n4. 用户权利：您可以随时查看、编辑或删除您的个人信息和识别记录。\n\n5. 更新通知：我们可能会更新隐私政策，重大变更时会通知您。\n\n感谢您信任FreshID！</string>
+    <string name="agree">同意</string>
+    <string name="disagree">不同意</string>
+    
+    <string name="guide_page_1_title">智能识别</string>
+    <string name="guide_page_1_desc">一键识别果蔬种类和新鲜度，轻松辨别食材</string>
+    <string name="guide_page_2_title">营养资讯</string>
+    <string name="guide_page_2_desc">获取详细的果蔬营养数据和健康食用建议</string>
+    <string name="guide_page_3_title">历史记录</string>
+    <string name="guide_page_3_desc">保存识别历史，收藏喜爱的果蔬，方便查看</string>
+    <string name="skip">跳过</string>
+    <string name="next">下一步</string>
+    <string name="start_use">开始使用</string>
+    
+    <string name="camera_permission_required">需要相机权限</string>
+    <string name="camera_permission_message">开启相机权限可体验拍照识别，点击前往设置</string>
+    <string name="storage_permission_required">需要存储权限</string>
+    <string name="storage_permission_message">开启存储权限可保存识别记录</string>
+    <string name="gallery_permission_required">需要相册权限</string>
+    <string name="gallery_permission_message">开启相册权限可从相册选择图片</string>
+    <string name="go_to_settings">前往设置</string>
+    
+    <string name="image_too_small">图片尺寸过小，请调整角度</string>
+    <string name="image_too_large">图片尺寸过大，请重新拍摄</string>
+    <string name="image_blurry">图片模糊，请重新拍摄</string>
+    <string name="not_fruit_vegetable">未识别到果蔬，请确保果蔬占图片主体</string>
+    <string name="recognize_timeout">识别超时，请检查网络状态或重新尝试</string>
+    <string name="network_error">网络异常，已切换至本地识别</string>
+    <string name="model_load_failed">模型加载失败，正在下载最新模型</string>
+    <string name="re_recognize">重新识别</string>
+    
+    <string name="storage_full">存储空间不足，无法保存识别记录</string>
+    <string name="clear_cache">清理缓存</string>
+    <string name="clear_now">立即清理</string>
+    
+    <string-array name="fruit_vegetable_names">
+        <item>苹果</item>
+        <item>香蕉</item>
+        <item>橙子</item>
+        <item>西瓜</item>
+        <item>草莓</item>
+        <item>葡萄</item>
+        <item>番茄</item>
+        <item>黄瓜</item>
+        <item>胡萝卜</item>
+        <item>西兰花</item>
+        <item>白菜</item>
+        <item>菠菜</item>
+        <item>土豆</item>
+        <item>洋葱</item>
+        <item>大蒜</item>
+    </string-array>
+    
+    <string-array name="fruit_vegetable_nutrition">
+        <item>热量：52kcal\n维生素C：4mg\n膳食纤维：2.4g</item>
+        <item>热量：89kcal\n钾：358mg\n维生素B6：0.4mg</item>
+        <item>热量：47kcal\n维生素C：53mg\n叶酸：30μg</item>
+        <item>热量：30kcal\n番茄红素：4532μg\n维生素A：569IU</item>
+        <item>热量：32kcal\n维生素C：58.8mg\n锰：0.4mg</item>
+        <item>热量：69kcal\n维生素K：14.6μg\n铜：0.2mg</item>
+        <item>热量：18kcal\n维生素C：14mg\n钾：237mg</item>
+        <item>热量：16kcal\n维生素K：16.4μg\n维生素C：2.8mg</item>
+        <item>热量：41kcal\n维生素A：835μg\n钾：320mg</item>
+        <item>热量：34kcal\n维生素C：51mg\n维生素K：102μg</item>
+        <item>热量：13kcal\n维生素C：28mg\n钙：45mg</item>
+        <item>热量：23kcal\n铁：2.7mg\n钙：99mg</item>
+        <item>热量：77kcal\n维生素C：19.7mg\n钾：421mg</item>
+        <item>热量：40kcal\n维生素C：7.4mg\n维生素B6：0.3mg</item>
+        <item>热量：149kcal\n维生素B6：1.2mg\n锰：1.7mg</item>
+    </string-array>
+    
+    <string-array name="fruit_vegetable_advice">
+        <item>建议每天1-2个，最好在饭前或饭后1小时食用。</item>
+        <item>成熟的香蕉有助于消化，可缓解便秘。</item>
+        <item>橙子富含维生素C，有助于增强免疫力。</item>
+        <item>西瓜含水量高，是夏季补水的好选择。</item>
+        <item>草莓应新鲜食用，不宜久放。</item>
+        <item>葡萄皮和籽富含抗氧化物质，建议一起食用。</item>
+        <item>番茄熟吃更有利于番茄红素的吸收。</item>
+        <item>黄瓜可生食或凉拌，是减肥的好食材。</item>
+        <item>胡萝卜用油烹饪更有利于胡萝卜素的吸收。</item>
+        <item>西兰花不宜煮太久，以免破坏营养。</item>
+        <item>白菜可炒、可炖、可凉拌，吃法多样。</item>
+        <item>菠菜焯水后可去除草酸，更利于钙的吸收。</item>
+        <item>土豆应存放在阴凉干燥处，避免发芽。</item>
+        <item>洋葱切时可放冰箱冷藏一会，减少辣味刺激。</item>
+        <item>大蒜切碎后放置15分钟再烹饪，保健效果更好。</item>
+    </string-array>
 </resources>

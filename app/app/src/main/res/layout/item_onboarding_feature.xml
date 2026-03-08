@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingHorizontal="32dp">
+
+    <ImageView
+        android:id="@+id/pageImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/resource__apple"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/pageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="智能果蔬识别"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_marginTop="48dp" />
+
+    <TextView
+        android:id="@+id/pageDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="使用 AI 技术，快速识别各种果蔬，轻松了解营养信息"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

@@ -77,7 +77,7 @@ dependencies {
 
     // TensorFlow Lite
     implementation(libs.tensorflow.lite)
-    implementation(libs.tensorflow.lite.support)
+    // implementation(libs.tensorflow.lite.support) // 暂时注释掉，避免依赖解析错误
     implementation(libs.tensorflow.lite.gpu)
 
     // Retrofit & OkHttp
