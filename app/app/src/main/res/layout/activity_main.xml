@@ -28,6 +28,15 @@
             android:textColor="@color/text_primary" />
 
         <ImageView
+            android:id="@+id/favoritesBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toStartOf="@id/moreBtn"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_star"
+            app:tint="@color/text_secondary" />
+
+        <ImageView
             android:id="@+id/moreBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"

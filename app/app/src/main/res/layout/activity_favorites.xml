@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context=".HistoryActivity">
+    tools:context=".FavoritesActivity">
 
+    <!-- 顶部栏 -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -27,37 +28,19 @@
             android:drawablePadding="8dp" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="历史记录"
+            android:text="收藏记录"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:layout_marginStart="16dp" />
 
-        <Button
-            android:id="@+id/sortButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:drawableLeft="@drawable/ic_more"
-            android:drawableTint="#FFFFFF"
-            android:drawablePadding="8dp" />
-
-        <Button
-            android:id="@+id/clearButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:drawableLeft="@drawable/ic_delete"
-            android:drawableTint="#FFFFFF"
-            android:drawablePadding="8dp" />
-
     </LinearLayout>
 
+    <!-- 收藏记录列表 -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historyRecyclerView"
+        android:id="@+id/favoritesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -65,6 +48,7 @@
         app:layout_constraintTop_toBottomOf="@id/topBar"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <!-- 空状态 -->
     <LinearLayout
         android:id="@+id/emptyState"
         android:layout_width="match_parent"
@@ -89,7 +73,7 @@
             android:id="@+id/emptyTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="暂无识别记录"
+            android:text="暂无收藏记录"
             android:textSize="18sp"
             android:textStyle="normal"
             android:textColor="#212121"
@@ -99,7 +83,7 @@
             android:id="@+id/emptyDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="快去试试图像识别吧！"
+            android:text="快去收藏你喜欢的果蔬吧！"
             android:textSize="14sp"
             android:textColor="#757575"
             android:layout_marginTop="8dp" />

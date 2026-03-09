@@ -9,14 +9,12 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp">
 
-    <!-- 缩略图 -->
     <ImageView
         android:id="@+id/historyImage"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:scaleType="centerCrop" />
 
-    <!-- 中部信息 -->
     <LinearLayout
         android:id="@+id/infoContainer"
         android:layout_width="0dp"
@@ -45,7 +43,24 @@
 
     </LinearLayout>
 
-    <!-- 右侧箭头 -->
+    <ImageView
+        android:id="@+id/favoriteIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_star"
+        app:tint="#4CAF50"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp" />
+
+    <ImageView
+        android:id="@+id/deleteButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_delete"
+        app:tint="#F44336"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp" />
+
     <ImageView
         android:id="@+id/arrowIcon"
         android:layout_width="24dp"

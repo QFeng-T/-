@@ -232,19 +232,34 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
+        <LinearLayout
             android:id="@+id/favoriteButton"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="#FFFFFF"
-            android:backgroundTint="#FFFFFF"
-            android:backgroundTintMode="multiply"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:strokeColor="#4CAF50"
             android:strokeWidth="1"
-            android:text="收藏"
-            android:textColor="#4CAF50"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="8dp">
+
+            <ImageView
+                android:id="@+id/favoriteIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star" />
+
+            <TextView
+                android:id="@+id/favoriteText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:textColor="#4CAF50"
+                android:textSize="14sp"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/recognizeAgainButton"

@@ -11,6 +11,9 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class ImageUploadActivity : AppCompatActivity() {
 
@@ -25,10 +28,12 @@ class ImageUploadActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
 
     private var selectedImageUri: Uri? = null
+    private var selectedBitmap: Bitmap? = null
 
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             val bitmap = result.data?.extras?.get("data") as Bitmap
+            selectedBitmap = bitmap
             imageView.setImageBitmap(bitmap)
             imagePreview.visibility = android.view.View.VISIBLE
             recognizeButton.visibility = android.view.View.VISIBLE
@@ -38,7 +43,11 @@ class ImageUploadActivity : AppCompatActivity() {
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             selectedImageUri = result.data?.data
-            imageView.setImageURI(selectedImageUri)
+            selectedImageUri?.let { uri ->
+                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                selectedBitmap = bitmap
+                imageView.setImageBitmap(bitmap)
+            }
             imagePreview.visibility = android.view.View.VISIBLE
             recognizeButton.visibility = android.view.View.VISIBLE
         }
@@ -81,32 +90,68 @@ class ImageUploadActivity : AppCompatActivity() {
         deleteButton.setOnClickListener {
             // 清空图片
             selectedImageUri = null
+            selectedBitmap = null
             imageView.setImageURI(null)
             imagePreview.visibility = android.view.View.GONE
             recognizeButton.visibility = android.view.View.GONE
         }
 
         recognizeButton.setOnClickListener {
-            if (selectedImageUri != null) {
+            if (selectedBitmap != null) {
                 recognizeImage()
             }
         }
     }
 
     private fun recognizeImage() {
+        // 先进行图片校验
+        val bitmap = selectedBitmap ?: return
+        val validationResult = ImageValidator.validateImage(bitmap)
+
+        if (validationResult is ImageValidator.ValidationResult.Failure) {
+            showValidationError(validationResult.message)
+            return
+        }
+
         // 显示加载动画
         progressBar.visibility = android.view.View.VISIBLE
 
         // 模拟识别过程
-        Thread {
+        lifecycleScope.launch {
             Thread.sleep(2000) // 模拟网络延迟
+            
+            // TODO: 等有了模型文件后，这里填入实际的识别结果
+            val mockFruitName = "番茄"
+            val mockConfidence = 0.95f
+            val mockNutritionData = "{\"热量\":\"18kcal\",\"维生素C\":\"19mg\"}"
+
+            // 保存识别记录（框架已就绪）
+            val recordId = RecognitionRecordService.saveRecognitionRecord(
+                context = this@ImageUploadActivity,
+                fruitVegName = mockFruitName,
+                confidence = mockConfidence,
+                imageBitmap = bitmap,
+                nutritionData = mockNutritionData
+            )
+
             runOnUiThread {
                 progressBar.visibility = android.view.View.GONE
                 // 跳转到结果页面
-                val intent = Intent(this, ResultActivity::class.java)
+                val intent = Intent(this@ImageUploadActivity, ResultActivity::class.java)
+                intent.putExtra("record_id", recordId)
                 startActivity(intent)
             }
-        }.start()
+        }
+    }
+
+    private fun showValidationError(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("图片校验失败")
+            .setMessage(message)
+            .setPositiveButton("确定") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
 }

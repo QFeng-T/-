@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tabHistoryIcon: ImageView
     private lateinit var tabMineIcon: ImageView
     private lateinit var moreBtn: ImageView
+    private lateinit var favoritesBtn: ImageView
 
     private val permissions = arrayOf(
         Manifest.permission.CAMERA,
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         tabHistoryIcon = findViewById(R.id.tabHistoryIcon)
         tabMineIcon = findViewById(R.id.tabMineIcon)
         moreBtn = findViewById(R.id.moreBtn)
+        favoritesBtn = findViewById(R.id.favoritesBtn)
     }
 
     private fun setupClickListeners() {
@@ -83,6 +85,10 @@ class MainActivity : AppCompatActivity() {
         tabMine.setOnClickListener {
             updateTabSelection(2)
             startActivity(Intent(this, UserManagementActivity::class.java))
+        }
+
+        favoritesBtn.setOnClickListener {
+            startActivity(Intent(this, FavoritesActivity::class.java))
         }
 
         moreBtn.setOnClickListener {

@@ -1,9 +1,16 @@
-fastapi
-uvicorn
-pydantic
-pillow
-python-multipart
-mysql-connector-python
-torch
-numpy
-aiofiles
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.2
+pydantic-settings==2.1.0
+pillow==10.1.0
+python-multipart==0.0.6
+mysql-connector-python==8.2.0
+torch==2.1.0
+numpy==1.26.2
+aiofiles==23.2.1
+python-dotenv==1.0.0
+python-magic-bin==0.4.14; sys_platform == 'win32'
+python-magic==0.4.27; sys_platform != 'win32'
+redis==5.0.1  # 可选，用于限流和缓存，若不使用可注释掉
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
