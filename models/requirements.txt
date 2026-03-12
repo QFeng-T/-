@@ -1,0 +1,26 @@
+# 模型训练模块 - 环境依赖
+# Python版本: 3.10+
+
+# ===== 深度学习框架 =====
+torch>=2.0.1
+torchvision>=0.15.2
+
+# ===== YOLO目标检测 =====
+ultralytics>=8.0.0
+
+# ===== 科学计算 =====
+pandas>=2.0.3
+
+# ===== 系统工具 =====
+PyYAML>=6.0.1
+
+# ===== 可选依赖 - 实验跟踪 =====
+# wandb>=0.15.0
+
+# ===== 安装说明 =====
+# 1. 创建conda环境: conda create -n fruit_training python=3.10
+# 2. 激活环境: conda activate fruit_training
+# 3. 安装CUDA支持的PyTorch:
+#    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+# 4. 安装其他依赖: pip install -r requirements.txt
+# 5. 如需CPU版本，使用: pip install torch torchvision

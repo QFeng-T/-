@@ -16,14 +16,22 @@ class HistoryAdapter(
     private val records: MutableList<RecognitionRecord>,
     private val onItemClick: (RecognitionRecord) -> Unit,
     private val onFavoriteClick: (RecognitionRecord, Int) -> Unit,
+    private val onShareClick: (RecognitionRecord, Int) -> Unit,
     private val onDeleteClick: (RecognitionRecord, Int) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+
+    init {
+        setHasStableIds(true)
+    }
 
     inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val historyImage: ImageView = itemView.findViewById(R.id.historyImage)
         val historyName: TextView = itemView.findViewById(R.id.historyName)
         val historyTime: TextView = itemView.findViewById(R.id.historyTime)
         val favoriteIcon: ImageView = itemView.findViewById(R.id.favoriteIcon)
+        val shareButton: ImageView = itemView.findViewById(R.id.shareButton)
         val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton)
         val arrowIcon: ImageView = itemView.findViewById(R.id.arrowIcon)
     }
@@ -38,8 +46,6 @@ class HistoryAdapter(
         val record = records[position]
         
         holder.historyName.text = record.fruit_veg_name
-        
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
         holder.historyTime.text = dateFormat.format(Date(record.create_time))
         
         try {
@@ -59,6 +65,10 @@ class HistoryAdapter(
             onFavoriteClick(record, position)
         }
         
+        holder.shareButton.setOnClickListener {
+            onShareClick(record, position)
+        }
+        
         holder.deleteButton.setOnClickListener {
             onDeleteClick(record, position)
         }
@@ -69,6 +79,10 @@ class HistoryAdapter(
     }
 
     override fun getItemCount(): Int = records.size
+
+    override fun getItemId(position: Int): Long {
+        return records[position].id
+    }
 
     fun updateRecords(newRecords: List<RecognitionRecord>) {
         records.clear()

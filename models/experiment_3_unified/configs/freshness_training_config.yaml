@@ -1,0 +1,72 @@
+# ============================================================================
+# YOLOv8 新鲜度检测训练配置
+# 使用 fruit_freshness_dataset 数据集（5列标准YOLO格式）
+# 类别数：126（63类水果 × 2种新鲜度）
+# ============================================================================
+
+# 项目配置
+project_name: "yolov8-freshness-detection"
+experiment_name: "freshness_yolov8_v2"
+output_dir: "./results"
+use_wandb: true
+
+# 数据集配置
+data:
+  # WSL2路径
+  data_yaml: "/home/th/data/unified_freshness/data.yaml"
+  
+  image_size: 640
+  batch_size: 16
+  num_workers: 4
+  cache: disk
+  pin_memory: true
+
+# 模型配置
+model:
+  model_type: "yolov8n"
+  pretrained: true
+  # 使用上次训练的最佳模型作为预训练权重
+  pretrained_model: "/mnt/d/Desktop/FreshID/models/experiment_3_unified/results/freshness_yolov8_v1/weights/best.pt"
+
+# 训练配置 - 基于上次训练结果优化
+training:
+  epochs: 100  # 增加训练轮数，模型还在持续进步
+  learning_rate: 0.0005  # 降低学习率，继续精细化训练
+  min_lr: 0.000001
+  weight_decay: 0.0005
+  momentum: 0.937
+  lr_scheduler: "cos"
+  warmup_epochs: 3  # 减少预热轮数，模型已经有基础
+  warmup_bias_lr: 0.1
+  patience: 20  # 增加耐心值，给模型更多时间
+  save_best_only: true
+  save_period: 5
+
+# 数据增强配置 - 适度增强防止过拟合
+augmentation:
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 15.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  mosaic: 1.0
+  mixup: 0.15
+  copy_paste: 0.0
+
+# 验证配置
+validation:
+  val_period: 1
+  save_val_images: true
+
+# RTX 3060 显存优化
+rtx3060_optimization:
+  auto_adjust_batch_size: true
+  max_batch_size: 16
+  gradient_accumulation_steps: 1
+  amp: true
+  max_grad_norm: 10.0

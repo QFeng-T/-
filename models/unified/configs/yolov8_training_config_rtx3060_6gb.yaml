@@ -1,0 +1,147 @@
+# ============================================================================
+# YOLOv8 目标检测训练配置 - RTX 3060 6GB 显存优化
+# 优化版本：提高学习率、增强数据增强、调整类别平衡
+# ============================================================================
+
+# 项目配置
+project_name: "yolov8-fruit-detection"
+experiment_name: "yolov8n_unified_fruits_rtx3060_6gb_optimized_v4"
+output_dir: "./results"
+use_wandb: false
+
+# 数据集配置
+data:
+  # 数据集配置文件路径 - Windows路径
+  data_yaml: "/home/th/data/dataset_unified/data.yaml"
+  
+  # 图像尺寸
+  image_size: 640
+  
+  # 批次大小 - RTX 3060 6GB优化
+  batch_size: 16
+  
+  # 工作线程数
+  num_workers: 8
+  
+  # 显存优化
+  cache: disk  # 关闭缓存以节省显存
+  pin_memory: true
+
+# 模型配置
+model:
+  # YOLOv8 模型类型
+  model_type: "yolov8n"
+  
+  # 预训练权重
+  pretrained: true
+  
+  # 类别数量（从data.yaml自动读取）
+
+# 训练配置
+training:
+
+  epochs: 100
+  
+  # 初始学习率 - 调整为更合理的值
+  learning_rate: 0.0008
+  
+  # 最小学习率
+  min_lr: 0.00001
+  
+  # 权重衰减
+  weight_decay: 0.0005
+  
+  # 动量
+  momentum: 0.937
+  
+  # 学习率调度器 - 使用余弦退火
+  lr_scheduler: "cos"
+  
+  # 预热轮数 - 增加到10轮，让模型更好地适应
+  warmup_epochs: 10
+  
+  # 预热偏置学习率
+  warmup_bias_lr: 0.1
+  
+  # 早停配置 - 显著增加耐心值，避免过早停止
+  patience: 8
+  save_best_only: true
+  save_period: 5
+
+# 数据增强配置 - 针对果蔬数据集优化，增强强度
+augmentation:
+  # 基础数据增强
+  hsv_h: 0.015  # 色调变化 - 略微增加
+  hsv_s: 0.7    # 饱和度变化 - 提高
+  hsv_v: 0.4    # 亮度变化 - 提高
+  degrees: 15.0 # 旋转角度 - 增加
+  translate: 0.15 # 平移 - 增加
+  scale: 0.5    # 缩放 - 增加范围
+  shear: 0.0    # 剪切
+  perspective: 0.0  # 透视变换
+  flipud: 0.0  # 上下翻转
+  fliplr: 0.5  # 左右翻转
+  
+  # 高级数据增强 - 增强强度
+  mosaic: 1.0   # Mosaic增强 - 提高到1.0
+  mixup: 0.2    # MixUp增强 - 提高
+  copy_paste: 0.1  # Copy-Paste增强 - 启用
+
+# 验证配置
+validation:
+  # 验证批次大小
+  batch_size: 16
+  
+  # 验证间隔
+  val_period: 1
+  
+  # 保存验证图像
+  save_val_images: true
+  
+  # 保存验证结果数量
+  max_val_images: 50
+
+# 预测配置
+prediction:
+  # 置信度阈值 - 降低以提高召回率
+  conf_threshold: 0.001
+  
+  # IOU阈值
+  iou_threshold: 0.7
+  
+  # 最大检测数
+  max_detections: 300
+
+# 导出配置
+export:
+  # 导出格式
+  formats: ["onnx", "torchscript"]
+  
+  # 简化模型
+  simplify: true
+  
+  # 半精度
+  half_precision: false
+  
+  # 输入尺寸
+  input_size: [640, 640]
+
+# RTX 3060 显存优化
+rtx3060_optimization:
+  # 自动调整批次大小
+  auto_adjust_batch_size: true
+  
+  # 最大批次大小
+  max_batch_size: 16
+  
+  # 梯度累积步数
+  gradient_accumulation_steps: 1
+  
+  # 混合精度训练
+  amp: true
+  
+  # 梯度裁剪
+  max_grad_norm: 10.0
+  
+  # 定期清理缓存
+  cache_cleanup_interval: 10

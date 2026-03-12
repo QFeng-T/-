@@ -151,4 +151,14 @@ object RecognitionRecordService {
             false
         }
     }
+
+    suspend fun getRecordById(context: Context, recordId: Long): RecognitionRecord? = withContext(Dispatchers.IO) {
+        try {
+            val db = DatabaseManager.getInstance(context)
+            db.recognitionRecordDao().getById(recordId)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }

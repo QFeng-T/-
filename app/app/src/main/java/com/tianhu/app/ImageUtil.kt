@@ -43,23 +43,27 @@ object ImageUtil {
         }
     }
 
-    private fun compressBitmap(bitmap: Bitmap): Bitmap {
+    fun compressImage(bitmap: Bitmap, maxWidth: Int = MAX_WIDTH, maxHeight: Int = MAX_HEIGHT, quality: Int = IMAGE_QUALITY): Bitmap {
         val width = bitmap.width
         val height = bitmap.height
         
-        if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
+        if (width <= maxWidth && height <= maxHeight) {
             return bitmap
         }
         
         val ratio = Math.min(
-            MAX_WIDTH.toFloat() / width,
-            MAX_HEIGHT.toFloat() / height
+            maxWidth.toFloat() / width,
+            maxHeight.toFloat() / height
         )
         
         val newWidth = (width * ratio).toInt()
         val newHeight = (height * ratio).toInt()
         
         return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+    }
+
+    private fun compressBitmap(bitmap: Bitmap): Bitmap {
+        return compressImage(bitmap)
     }
 
     fun getBitmapFromPath(imagePath: String): Bitmap? {

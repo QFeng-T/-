@@ -3,11 +3,13 @@ package com.tianhu.app
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -24,11 +26,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var moreBtn: ImageView
     private lateinit var favoritesBtn: ImageView
 
-    private val permissions = arrayOf(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+    }
+
+    private val requiredPermissions: Array<String>
+        get() {
+            val permissions = mutableListOf(Manifest.permission.CAMERA)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                permissions.add(Manifest.permission.READ_MEDIA_IMAGES)
+            } else {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+            return permissions.toTypedArray()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkPermissionsOnNonFirstLaunch() {
-        val missingPermissions = permissions.filter {
+        val missingPermissions = requiredPermissions.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }
 
@@ -108,8 +118,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showPermissionGuideDialog() {
         AlertDialog.Builder(this)
-            .setTitle("权限提示")
-            .setMessage("开启相机和存储权限可体验完整功能")
+            .setTitle("权限说明")
+            .setMessage("开启相机和存储权限可体验完整的拍照和图片选择功能。")
             .setPositiveButton("前往设置") { _, _ ->
             }
             .setNegativeButton("稍后") { _, _ ->
@@ -127,4 +137,8 @@ class MainActivity : AppCompatActivity() {
         (tabMine.getChildAt(1) as TextView).setTextColor(getColor(if (position == 2) R.color.primary else R.color.text_tertiary))
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateTabSelection(0)
+    }
 }

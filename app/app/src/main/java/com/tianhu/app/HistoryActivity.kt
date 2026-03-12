@@ -2,18 +2,32 @@ package com.tianhu.app
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tianhu.app.database.entities.RecognitionRecord
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileWriter
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 enum class SortType {
     TIME_DESC,
@@ -27,9 +41,12 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var backButton: Button
     private lateinit var clearButton: Button
     private lateinit var sortButton: Button
+    private lateinit var exportButton: Button
     private lateinit var historyRecyclerView: RecyclerView
     private lateinit var emptyState: LinearLayout
     private lateinit var goToScanButton: Button
+    private lateinit var searchEditText: EditText
+    private lateinit var searchClearButton: Button
     
     private lateinit var adapter: HistoryAdapter
     private val records = mutableListOf<RecognitionRecord>()
@@ -37,6 +54,7 @@ class HistoryActivity : AppCompatActivity() {
     
     private lateinit var sharedPreferences: SharedPreferences
     private var currentSortType: SortType = SortType.TIME_DESC
+    private var searchQuery: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +71,12 @@ class HistoryActivity : AppCompatActivity() {
         backButton = findViewById(R.id.backButton)
         clearButton = findViewById(R.id.clearButton)
         sortButton = findViewById(R.id.sortButton)
+        exportButton = findViewById(R.id.exportButton)
         historyRecyclerView = findViewById(R.id.historyRecyclerView)
         emptyState = findViewById(R.id.emptyState)
         goToScanButton = findViewById(R.id.goToScanButton)
+        searchEditText = findViewById(R.id.searchEditText)
+        searchClearButton = findViewById(R.id.searchClearButton)
     }
 
     private fun setupSharedPreferences() {
@@ -72,6 +93,9 @@ class HistoryActivity : AppCompatActivity() {
             },
             onFavoriteClick = { record, position ->
                 toggleFavorite(record, position)
+            },
+            onShareClick = { record, position ->
+                shareRecord(record)
             },
             onDeleteClick = { record, position ->
                 showDeleteConfirmation(record, position)
@@ -124,10 +148,30 @@ class HistoryActivity : AppCompatActivity() {
             showSortDialog()
         }
 
+        exportButton.setOnClickListener {
+            showExportDialog()
+        }
+
         goToScanButton.setOnClickListener {
             val intent = Intent(this, ImageUploadActivity::class.java)
             startActivity(intent)
             finish()
+        }
+
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchQuery = s.toString()
+                searchClearButton.visibility = if (searchQuery.isEmpty()) Button.GONE else Button.VISIBLE
+                applyFilterAndSort()
+            }
+            
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        searchClearButton.setOnClickListener {
+            searchEditText.text.clear()
         }
     }
 
@@ -146,7 +190,7 @@ class HistoryActivity : AppCompatActivity() {
             .setSingleChoiceItems(sortOptions, checkedItem) { dialog, which ->
                 currentSortType = SortType.entries[which]
                 saveSortPreference()
-                applySort()
+                applyFilterAndSort()
                 dialog.dismiss()
             }
             .setNegativeButton("取消", null)
@@ -164,16 +208,24 @@ class HistoryActivity : AppCompatActivity() {
             val recordsFromDb = RecognitionRecordService.getAllRecords(this@HistoryActivity)
             allRecords.clear()
             allRecords.addAll(recordsFromDb)
-            applySort()
+            applyFilterAndSort()
         }
     }
 
-    private fun applySort() {
+    private fun applyFilterAndSort() {
+        var filteredRecords = if (searchQuery.isEmpty()) {
+            allRecords
+        } else {
+            allRecords.filter { 
+                it.fruit_veg_name.contains(searchQuery, ignoreCase = true) 
+            }
+        }
+
         val sortedRecords = when (currentSortType) {
-            SortType.TIME_DESC -> allRecords.sortedByDescending { it.create_time }
-            SortType.TIME_ASC -> allRecords.sortedBy { it.create_time }
-            SortType.NAME_ASC -> allRecords.sortedBy { it.fruit_veg_name }
-            SortType.NAME_DESC -> allRecords.sortedByDescending { it.fruit_veg_name }
+            SortType.TIME_DESC -> filteredRecords.sortedByDescending { it.create_time }
+            SortType.TIME_ASC -> filteredRecords.sortedBy { it.create_time }
+            SortType.NAME_ASC -> filteredRecords.sortedBy { it.fruit_veg_name }
+            SortType.NAME_DESC -> filteredRecords.sortedByDescending { it.fruit_veg_name }
         }
         updateUI(sortedRecords)
     }
@@ -271,6 +323,132 @@ class HistoryActivity : AppCompatActivity() {
         if (allRecords.isEmpty()) {
             emptyState.visibility = LinearLayout.VISIBLE
             historyRecyclerView.visibility = RecyclerView.GONE
+        }
+    }
+
+    private fun showExportDialog() {
+        if (allRecords.isEmpty()) {
+            Toast.makeText(this, "暂无记录可导出", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("导出数据")
+            .setMessage("是否导出所有识别记录为CSV文件？")
+            .setPositiveButton("导出") { _, _ ->
+                exportToCSV()
+            }
+            .setNegativeButton("取消", null)
+            .show()
+    }
+
+    private fun exportToCSV() {
+        lifecycleScope.launch {
+            val file = withContext(Dispatchers.IO) {
+                try {
+                    val dateFormatFile = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+                    val dateFormatRecord = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                    val timeStamp = dateFormatFile.format(Date())
+                    val fileName = "FreshID_Records_$timeStamp.csv"
+                    val exportDir = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "exports")
+                    if (!exportDir.exists()) {
+                        exportDir.mkdirs()
+                    }
+                    
+                    val file = File(exportDir, fileName)
+                    FileWriter(file).use { writer ->
+                        writer.append("ID,果蔬名称,置信度,识别时间,是否收藏\n")
+                        
+                        allRecords.forEach { record ->
+                            val timeStr = dateFormatRecord.format(Date(record.create_time))
+                            val isCollected = if (record.is_collected) "是" else "否"
+                            
+                            writer.append("${record.id},")
+                            writer.append("\"${record.fruit_veg_name}\",")
+                            writer.append("${"%.2f".format(record.confidence * 100)}%,")
+                            writer.append("$timeStr,")
+                            writer.append("$isCollected\n")
+                        }
+                    }
+                    file
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                if (file != null) {
+                    Toast.makeText(this@HistoryActivity, "导出成功: ${file.name}", Toast.LENGTH_LONG).show()
+                    shareFile(file)
+                } else {
+                    Toast.makeText(this@HistoryActivity, "导出失败", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun shareRecord(record: RecognitionRecord) {
+        try {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val timeStr = dateFormat.format(Date(record.create_time))
+            val confidencePercent = "%.2f".format(record.confidence * 100)
+            
+            val shareText = """
+                🥬 FreshID 识别结果
+                
+                果蔬名称: ${record.fruit_veg_name}
+                置信度: $confidencePercent%
+                识别时间: $timeStr
+                
+                来自 FreshID 智能果蔬识别应用
+            """.trimIndent()
+            
+            val imageUri = try {
+                Uri.parse(record.image_uri)
+            } catch (e: Exception) {
+                null
+            }
+            
+            val intent = if (imageUri != null) {
+                Intent(Intent.ACTION_SEND).apply {
+                    type = "image/*"
+                    putExtra(Intent.EXTRA_TEXT, shareText)
+                    putExtra(Intent.EXTRA_STREAM, imageUri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+            } else {
+                Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, shareText)
+                }
+            }
+            
+            startActivity(Intent.createChooser(intent, "分享识别结果"))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "分享失败", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun shareFile(file: File) {
+        try {
+            val uri = FileProvider.getUriForFile(
+                this,
+                "${packageName}.fileprovider",
+                file
+            )
+            
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/csv"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            
+            startActivity(Intent.createChooser(intent, "分享导出文件"))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "分享失败", Toast.LENGTH_SHORT).show()
         }
     }
 

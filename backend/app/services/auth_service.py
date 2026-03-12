@@ -17,8 +17,6 @@ class AuthService:
         self.refresh_token_expire_days = int(os.getenv("JWT_REFRESH_TOKEN_EXPIRE_DAYS", "7"))
         
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        self.verification_codes = {}
-        self.verification_code_expiry = {}
     
     def create_access_token(self, data: dict, expires_delta: Optional[timedelta] = None) -> Tuple[str, datetime]:
         to_encode = data.copy()
@@ -51,29 +49,6 @@ class AuthService:
     
     def generate_verification_code(self, length: int = 6) -> str:
         return ''.join(random.choices(string.digits, k=length))
-    
-    def save_verification_code(self, phone_number: str, code: str, expires_in: int = 300):
-        self.verification_codes[phone_number] = code
-        expiry = datetime.utcnow() + timedelta(seconds=expires_in)
-        self.verification_code_expiry[phone_number] = expiry
-    
-    def verify_verification_code(self, phone_number: str, code: str) -> bool:
-        if phone_number not in self.verification_codes:
-            return False
-        
-        if phone_number in self.verification_code_expiry:
-            if datetime.utcnow() > self.verification_code_expiry[phone_number]:
-                del self.verification_codes[phone_number]
-                del self.verification_code_expiry[phone_number]
-                return False
-        
-        if self.verification_codes[phone_number] == code:
-            del self.verification_codes[phone_number]
-            if phone_number in self.verification_code_expiry:
-                del self.verification_code_expiry[phone_number]
-            return True
-        
-        return False
     
     def generate_uid(self) -> str:
         return ''.join(random.choices(string.digits, k=8))

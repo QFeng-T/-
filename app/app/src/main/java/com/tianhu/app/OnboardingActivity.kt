@@ -3,13 +3,14 @@ package com.tianhu.app
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 
@@ -23,12 +24,26 @@ class OnboardingActivity : AppCompatActivity() {
     private lateinit var pageIndicator2: ImageView
     private lateinit var pageIndicator3: ImageView
 
-    private val PERMISSION_REQUEST_CODE = 1001
-    private val permissions = arrayOf(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        val allGranted = permissions.values.all { it }
+        if (allGranted) {
+            markOnboardingComplete()
+            navigateToMain()
+        } else {
+            showPermissionDeniedDialog()
+        }
+    }
+
+    private val requiredPermissions: Array<String>
+        get() {
+            val permissions = mutableListOf(Manifest.permission.CAMERA)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                permissions.add(Manifest.permission.READ_MEDIA_IMAGES)
+            } else {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+            return permissions.toTypedArray()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +67,7 @@ class OnboardingActivity : AppCompatActivity() {
     private fun setupViewPager() {
         val adapter = OnboardingPagerAdapter(this)
         viewPager.adapter = adapter
+        viewPager.isUserInputEnabled = true
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -60,6 +76,9 @@ class OnboardingActivity : AppCompatActivity() {
                 updateButtons(position)
             }
         })
+
+        updatePageIndicators(0)
+        updateButtons(0)
     }
 
     private fun updatePageIndicators(position: Int) {
@@ -88,7 +107,7 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         skipButton.setOnClickListener {
-            checkPermissionsAndProceed()
+            viewPager.currentItem = 2
         }
 
         nextButton.setOnClickListener {
@@ -104,7 +123,7 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun checkPermissionsAndProceed() {
-        val missingPermissions = permissions.filter {
+        val missingPermissions = requiredPermissions.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }
 
@@ -112,46 +131,15 @@ class OnboardingActivity : AppCompatActivity() {
             markOnboardingComplete()
             navigateToMain()
         } else {
-            requestPermissions(missingPermissions.toTypedArray())
-        }
-    }
-
-    private fun requestPermissions(permissions: Array<String>) {
-        ActivityCompat.requestPermissions(
-            this,
-            permissions,
-            PERMISSION_REQUEST_CODE
-        )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            val allGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
-            
-            if (allGranted) {
-                markOnboardingComplete()
-                navigateToMain()
-            } else {
-                showPermissionDeniedDialog()
-            }
+            permissionLauncher.launch(missingPermissions.toTypedArray())
         }
     }
 
     private fun showPermissionDeniedDialog() {
         AlertDialog.Builder(this)
-            .setTitle("权限提示")
-            .setMessage("开启相机和存储权限可体验完整功能")
-            .setPositiveButton("前往设置") { _, _ ->
-                markOnboardingComplete()
-                navigateToMain()
-            }
-            .setNegativeButton("稍后") { _, _ ->
+            .setTitle("权限说明")
+            .setMessage("相机和存储权限用于拍照、保存图片和识别记录。您可以稍后在系统设置中开启。")
+            .setPositiveButton("继续使用") { _, _ ->
                 markOnboardingComplete()
                 navigateToMain()
             }
@@ -166,7 +154,16 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun navigateToMain() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        if (viewPager.currentItem > 0) {
+            viewPager.currentItem = viewPager.currentItem - 1
+        } else {
+            super.onBackPressed()
+        }
     }
 }
