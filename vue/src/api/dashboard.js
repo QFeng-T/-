@@ -2,83 +2,49 @@ import request from './index'
 
 export const dashboardApi = {
   getStats() {
-    console.log('[API] 获取统计数据接口待实现')
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: {
-            totalUsers: 0,
-            totalRecords: 0,
-            totalFavorites: 0,
-            avgAccuracy: 0
-          }
-        })
-      }, 300)
+    return request({
+      url: '/v1/admin/stats/overview',
+      method: 'get'
     })
   },
 
   getTrendData(params) {
-    console.log('[API] 获取趋势数据接口待实现', params)
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: {
-            dates: [],
-            records: [],
-            users: []
-          }
-        })
-      }, 300)
+    return request({
+      url: '/v1/admin/stats/trend',
+      method: 'get',
+      params
     })
   },
 
   getFruitDistribution() {
-    console.log('[API] 获取果蔬分布数据接口待实现')
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: []
-        })
-      }, 300)
+    return request({
+      url: '/v1/admin/stats/fruit-distribution',
+      method: 'get'
     })
   },
 
   getLoginTypeDistribution() {
-    console.log('[API] 获取登录类型分布接口待实现')
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: []
-        })
-      }, 300)
+    return request({
+      url: '/v1/admin/stats/login-type',
+      method: 'get'
     })
   },
 
   getRecognitionTypeDistribution() {
-    console.log('[API] 获取识别类型分布接口待实现')
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: []
-        })
-      }, 300)
+    return Promise.resolve({
+      success: true,
+      data: [
+        { name: '本地识别', value: 0 },
+        { name: '云端识别', value: 0 }
+      ]
     })
   },
 
   getRecentRecords() {
-    console.log('[API] 获取最近识别记录接口待实现')
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: []
-        })
-      }, 300)
+    return request({
+      url: '/v1/admin/records',
+      method: 'get',
+      params: { limit: 10 }
     })
   }
 }

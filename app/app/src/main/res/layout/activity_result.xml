@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@drawable/bg_gradient_background"
     tools:context=".ResultActivity">
 
     <!-- 顶部栏 -->
@@ -12,216 +12,226 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#4CAF50"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="16dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageView
             android:id="@+id/backButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:drawableLeft="@drawable/ic_back"
-            android:drawableTint="#FFFFFF"
-            android:drawablePadding="8dp" />
+            android:src="@drawable/ic_back"
+            app:tint="#FFFFFF"
+            android:contentDescription="返回" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="识别结果"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="8dp" />
 
-        <Button
+        <ImageView
             android:id="@+id/shareButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:drawableLeft="@drawable/ic_email"
-            android:drawableTint="#FFFFFF"
-            android:drawablePadding="8dp" />
+            android:src="@drawable/ic_email"
+            app:tint="#FFFFFF"
+            android:contentDescription="分享" />
 
     </LinearLayout>
 
     <!-- 结果卡片 -->
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/resultCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:padding="0dp"
-        app:layout_constraintTop_toBottomOf="@id/topBar">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar">
 
-        <!-- 果蔬图片 -->
-        <RelativeLayout
-            android:id="@+id/imageContainer"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="200dp">
-
-            <ImageView
-                android:id="@+id/fruitImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/image_overlay"
-                android:orientation="vertical"
-                android:gravity="bottom"
-                android:padding="16dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/fruitName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="番茄"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                <!-- 果蔬图片 -->
+                <RelativeLayout
+                    android:id="@+id/imageContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp">
 
-                <TextView
-                    android:id="@+id/confidence"
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/fruitImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/image_overlay"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:id="@+id/fruitName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="番茄"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/confidence"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="置信度 98%"
+                            android:textSize="16sp"
+                            android:textColor="#E0E0E0"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <!-- 信息标签 -->
+                <LinearLayout
+                    android:id="@+id/infoTags"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="置信度 98%"
-                    android:textSize="14sp"
-                    android:textColor="#E0E0E0"
-                    android:layout_marginTop="4dp" />
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:scrollbars="horizontal">
+
+                    <TextView
+                        android:id="@+id/calorieTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_tag"
+                        android:text="热量：18kcal/100g"
+                        android:textColor="#10B981"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:id="@+id/vitaminTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_tag"
+                        android:text="维生素C：19mg/100g"
+                        android:textColor="#10B981"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:id="@+id/tipTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_tag"
+                        android:text="选购建议：选择色泽鲜红、果柄翠绿的"
+                        android:textColor="#10B981"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp" />
+
+                </LinearLayout>
+
+                <!-- 详情区域 -->
+                <LinearLayout
+                    android:id="@+id/detailSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/nutritionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="营养成分"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#1F2937" />
+
+                    <LinearLayout
+                        android:id="@+id/nutritionList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="12dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:backgroundTint="#F8FAFC">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="• 碳水化合物：3.9g"
+                            android:textSize="15sp"
+                            android:textColor="#64748B" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="• 膳食纤维：1.2g"
+                            android:textSize="15sp"
+                            android:textColor="#64748B"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="• 钾：237mg"
+                            android:textSize="15sp"
+                            android:textColor="#64748B"
+                            android:layout_marginTop="8dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/suggestionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="食用建议"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#1F2937"
+                        android:layout_marginTop="24dp" />
+
+                    <TextView
+                        android:id="@+id/suggestionContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="可生食、烹饪，搭配鸡蛋炒食风味更佳"
+                        android:textSize="15sp"
+                        android:textColor="#64748B"
+                        android:layout_marginTop="12dp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </ScrollView>
 
-        <!-- 信息标签 -->
-        <LinearLayout
-            android:id="@+id/infoTags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:scrollbars="horizontal">
-
-            <TextView
-                android:id="@+id/calorieTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#E8F5E9"
-                android:text="热量：18kcal/100g"
-                android:textColor="#4CAF50"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="8dp"
-                android:layout_marginRight="8dp" />
-
-            <TextView
-                android:id="@+id/vitaminTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#E8F5E9"
-                android:text="维生素C：19mg/100g"
-                android:textColor="#4CAF50"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="8dp"
-                android:layout_marginRight="8dp" />
-
-            <TextView
-                android:id="@+id/tipTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#E8F5E9"
-                android:text="选购建议：选择色泽鲜红、果柄翠绿的"
-                android:textColor="#4CAF50"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="8dp" />
-
-        </LinearLayout>
-
-        <!-- 详情区域 -->
-        <LinearLayout
-            android:id="@+id/detailSection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/nutritionTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="营养成分"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#212121" />
-
-            <LinearLayout
-                android:id="@+id/nutritionList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="碳水化合物：3.9g"
-                    android:textSize="14sp"
-                    android:textColor="#757575" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="膳食纤维：1.2g"
-                    android:textSize="14sp"
-                    android:textColor="#757575"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="钾：237mg"
-                    android:textSize="14sp"
-                    android:textColor="#757575"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/suggestionTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="食用建议"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#212121"
-                android:layout_marginTop="16dp" />
-
-            <TextView
-                android:id="@+id/suggestionContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="可生食、烹饪，搭配鸡蛋炒食风味更佳"
-                android:textSize="14sp"
-                android:textColor="#757575"
-                android:layout_marginTop="8dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <!-- 底部操作栏 -->
     <LinearLayout
@@ -232,44 +242,70 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/favoriteButton"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="56dp"
             android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:strokeColor="#4CAF50"
-            android:strokeWidth="1"
-            android:layout_marginRight="8dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_marginEnd="8dp">
 
-            <ImageView
-                android:id="@+id/favoriteIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_star" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/favoriteText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收藏"
-                android:textColor="#4CAF50"
-                android:textSize="14sp"
-                android:layout_marginStart="8dp" />
+                <ImageView
+                    android:id="@+id/favoriteIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_star"
+                    app:tint="#10B981" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/favoriteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收藏"
+                    android:textColor="#10B981"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="8dp" />
 
-        <Button
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/recognizeAgainButton"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="56dp"
             android:layout_weight="1"
-            android:background="#4CAF50"
-            android:text="再识别一次"
-            android:textColor="#FFFFFF"
-            android:layout_marginLeft="8dp" />
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_marginStart="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_gradient_primary"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="再识别一次"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

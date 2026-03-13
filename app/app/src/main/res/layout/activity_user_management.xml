@@ -296,18 +296,35 @@
 
         </LinearLayout>
 
-        <!-- 退出登录按钮 -->
-        <Button
-            android:id="@+id/logoutButton"
+        <!-- 登录/退出按钮 -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="#F5F5F5"
-            android:text="退出登录"
-            android:textColor="#F44336"
-            android:textSize="16sp" />
+            android:layout_marginBottom="32dp">
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_gradient_primary"
+                android:text="登录账号"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#F5F5F5"
+                android:text="退出登录"
+                android:textColor="#F44336"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

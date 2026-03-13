@@ -20,7 +20,7 @@ import com.tianhu.app.database.entities.UserInfo
         Setting::class,
         FruitVegCache::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

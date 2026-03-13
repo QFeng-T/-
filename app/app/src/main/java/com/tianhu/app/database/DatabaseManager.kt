@@ -2,9 +2,18 @@ package com.tianhu.app.database
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 object DatabaseManager {
     private var database: AppDatabase? = null
+
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE recognition_record ADD COLUMN freshness_score REAL")
+            database.execSQL("ALTER TABLE recognition_record ADD COLUMN is_fresh INTEGER")
+        }
+    }
 
     fun getInstance(context: Context): AppDatabase {
         if (database == null) {
@@ -14,7 +23,8 @@ object DatabaseManager {
                         context.applicationContext,
                         AppDatabase::class.java,
                         "fresh_id_db"
-                    ).build()
+                    ).addMigrations(MIGRATION_1_2)
+                    .build()
                 }
             }
         }

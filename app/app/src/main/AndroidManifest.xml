@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
+        android:name=".FreshIDApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,7 +29,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,25 +37,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OnboardingActivity"
+            android:name=".ui.activities.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".ImageUploadActivity"
+            android:name=".ui.activities.ImageUploadActivity"
             android:exported="false" />
         <activity
-            android:name=".ResultActivity"
+            android:name=".ui.activities.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".ui.activities.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".UserManagementActivity"
+            android:name=".ui.activities.UserManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".FavoritesActivity"
+            android:name=".ui.activities.ModelManagerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.FavoritesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.BatchRecognitionActivity"
             android:exported="false" />
     </application>
 

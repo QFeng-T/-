@@ -1,16 +1,26 @@
 <template>
   <div class="users-container">
     <el-card class="search-card">
+      <template #header>
+        <div class="card-header">
+          <el-icon class="card-icon"><Search /></el-icon>
+          <span class="card-title">搜索筛选</span>
+        </div>
+      </template>
       <el-form :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="用户名">
-          <el-input v-model="searchForm.username" placeholder="请输入用户名" clearable />
+          <el-input v-model="searchForm.username" placeholder="请输入用户名" clearable prefix-icon="User" />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable />
+          <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable prefix-icon="Phone" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSearch">搜索</el-button>
-          <el-button @click="handleReset">重置</el-button>
+          <el-button type="primary" @click="handleSearch">
+            <el-icon><Search /></el-icon> 搜索
+          </el-button>
+          <el-button @click="handleReset">
+            <el-icon><RefreshLeft /></el-icon> 重置
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -18,36 +28,52 @@
     <el-card class="table-card">
       <template #header>
         <div class="card-header">
-          <span>用户列表</span>
-          <el-button type="primary" size="small" @click="handleAdd">新增用户</el-button>
+          <div class="header-left">
+            <el-icon class="card-icon"><UserFilled /></el-icon>
+            <span class="card-title">用户列表</span>
+          </div>
+          <el-button type="primary" size="small" @click="handleAdd">
+            <el-icon><Plus /></el-icon> 新增用户
+          </el-button>
         </div>
       </template>
       
-      <el-table :data="tableData" stripe border v-loading="loading">
-        <el-table-column prop="id" label="用户ID" width="80" />
-        <el-table-column prop="uid" label="唯一标识" width="120" />
-        <el-table-column prop="username" label="用户名" width="150" />
+      <el-table :data="tableData" stripe v-loading="loading" class="users-table">
+        <el-table-column prop="id" label="用户ID" width="80" align="center" />
+        <el-table-column prop="uid" label="唯一标识" width="120" align="center" />
+        <el-table-column prop="username" label="用户名" width="150">
+          <template #default="{ row }">
+            <div class="user-info">
+              <el-avatar :size="32" :src="row.avatar" :icon="User" />
+              <span class="username">{{ row.username }}</span>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column prop="nickname" label="昵称" width="120" />
         <el-table-column prop="email" label="邮箱" width="180" />
         <el-table-column prop="phone_number" label="手机号" width="130" />
-        <el-table-column prop="login_type" label="登录类型" width="100">
+        <el-table-column prop="login_type" label="登录类型" width="100" align="center">
           <template #default="{ row }">
-            <el-tag :type="row.login_type === 'phone' ? 'success' : 'info'">
+            <el-tag :type="row.login_type === 'phone' ? 'success' : 'info'" effect="dark" size="small">
               {{ row.login_type === 'phone' ? '手机号' : '游客' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="cloud_sync_switch" label="云端同步" width="100">
+        <el-table-column prop="cloud_sync_switch" label="云端同步" width="100" align="center">
           <template #default="{ row }">
             <el-switch v-model="row.cloud_sync_switch" disabled />
           </template>
         </el-table-column>
         <el-table-column prop="created_at" label="创建时间" width="180" />
         <el-table-column prop="last_login" label="最后登录" width="180" />
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right" align="center">
           <template #default="{ row }">
-            <el-button type="primary" size="small" link @click="handleEdit(row)">编辑</el-button>
-            <el-button type="danger" size="small" link @click="handleDelete(row)">删除</el-button>
+            <el-button type="primary" size="small" link @click="handleEdit(row)">
+              <el-icon><Edit /></el-icon> 编辑
+            </el-button>
+            <el-button type="danger" size="small" link @click="handleDelete(row)">
+              <el-icon><Delete /></el-icon> 删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,7 +86,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        style="margin-top: 20px; justify-content: flex-end"
+        class="pagination"
       />
     </el-card>
 
@@ -69,19 +95,20 @@
       :title="dialogTitle"
       width="500px"
       :close-on-click-modal="false"
+      class="user-dialog"
     >
       <el-form :model="userForm" :rules="userRules" ref="userFormRef" label-width="100px">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="userForm.username" placeholder="请输入用户名" />
+          <el-input v-model="userForm.username" placeholder="请输入用户名" prefix-icon="User" />
         </el-form-item>
         <el-form-item label="昵称" prop="nickname">
-          <el-input v-model="userForm.nickname" placeholder="请输入昵称" />
+          <el-input v-model="userForm.nickname" placeholder="请输入昵称" prefix-icon="UserFilled" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="userForm.email" placeholder="请输入邮箱" />
+          <el-input v-model="userForm.email" placeholder="请输入邮箱" prefix-icon="Message" />
         </el-form-item>
         <el-form-item label="手机号" prop="phone_number">
-          <el-input v-model="userForm.phone_number" placeholder="请输入手机号" />
+          <el-input v-model="userForm.phone_number" placeholder="请输入手机号" prefix-icon="Phone" />
         </el-form-item>
         <el-form-item label="登录类型" prop="login_type">
           <el-select v-model="userForm.login_type" placeholder="请选择登录类型" style="width: 100%">
@@ -94,16 +121,22 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmit" :loading="submitLoading">确定</el-button>
+        <el-button @click="dialogVisible = false">
+          <el-icon><Close /></el-icon> 取消
+        </el-button>
+        <el-button type="primary" @click="handleSubmit" :loading="submitLoading">
+          <el-icon><Check /></el-icon> 确定
+        </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { userApi } from '@/api/user'
+import { debounce, requestCache } from '@/utils/performance'
 
 const loading = ref(false)
 const submitLoading = ref(false)
@@ -118,7 +151,7 @@ const searchForm = reactive({
 
 const pagination = reactive({
   page: 1,
-  size: 10,
+  size: 20,
   total: 0
 })
 
@@ -136,84 +169,75 @@ const userRules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
 }
 
-const tableData = ref([
-  {
-    id: 1,
-    uid: '10000001',
-    username: 'user001',
-    nickname: '小明',
-    email: 'xiaoming@example.com',
-    phone_number: '138****1234',
-    login_type: 'phone',
-    cloud_sync_switch: true,
-    created_at: '2026-03-01 10:30:00',
-    last_login: '2026-03-12 08:15:00'
-  },
-  {
-    id: 2,
-    uid: '10000002',
-    username: 'user002',
-    nickname: '小红',
-    email: 'xiaohong@example.com',
-    phone_number: '139****5678',
-    login_type: 'phone',
-    cloud_sync_switch: true,
-    created_at: '2026-03-02 14:20:00',
-    last_login: '2026-03-11 16:45:00'
-  },
-  {
-    id: 3,
-    uid: null,
-    username: 'guest_001',
-    nickname: null,
-    email: null,
-    phone_number: null,
-    login_type: 'guest',
-    cloud_sync_switch: false,
-    created_at: '2026-03-03 09:10:00',
-    last_login: '2026-03-10 12:30:00'
-  },
-  {
-    id: 4,
-    uid: '10000004',
-    username: 'user004',
-    nickname: '小华',
-    email: 'xiaohua@example.com',
-    phone_number: '137****9012',
-    login_type: 'phone',
-    cloud_sync_switch: true,
-    created_at: '2026-03-05 16:40:00',
-    last_login: '2026-03-12 09:20:00'
-  },
-  {
-    id: 5,
-    uid: null,
-    username: 'guest_002',
-    nickname: null,
-    email: null,
-    phone_number: null,
-    login_type: 'guest',
-    cloud_sync_switch: false,
-    created_at: '2026-03-08 11:25:00',
-    last_login: '2026-03-09 14:10:00'
-  }
-])
+const tableData = ref([])
 
-const loadData = () => {
+const loadData = async (useCache = true) => {
   loading.value = true
-  pagination.total = tableData.value.length
-  loading.value = false
+  try {
+    const params = {
+      page: pagination.page,
+      limit: pagination.size
+    }
+    if (searchForm.username) {
+      params.search = searchForm.username
+    }
+    
+    const cacheKey = `users_${JSON.stringify(params)}`
+    
+    if (useCache) {
+      const cached = requestCache.get(cacheKey)
+      if (cached) {
+        tableData.value = cached.data?.list || []
+        pagination.total = cached.data?.total || 0
+        loading.value = false
+        return
+      }
+    }
+    
+    const res = await userApi.getUsers(params)
+    if (res.success && res.data) {
+      tableData.value = res.data.list || []
+      pagination.total = res.data.total || 0
+      requestCache.set(cacheKey, res)
+    } else if (res.success === false) {
+      console.log('[Users] API返回成功标志为false:', res)
+    }
+  } catch (error) {
+    console.log('[Users] 加载数据失败，使用缓存或空数据', error)
+    const cacheKey = `users_${JSON.stringify({
+      page: pagination.page,
+      limit: pagination.size,
+      search: searchForm.username
+    })}`
+    const cached = requestCache.get(cacheKey)
+    if (cached) {
+      tableData.value = cached.data?.list || []
+      pagination.total = cached.data?.total || 0
+    }
+  } finally {
+    loading.value = false
+  }
 }
 
+const debouncedSearch = debounce(() => {
+  pagination.page = 1
+  loadData(false)
+}, 300)
+
 const handleSearch = () => {
-  ElMessage.success('搜索功能待实现')
+  pagination.page = 1
+  loadData(false)
 }
 
 const handleReset = () => {
   searchForm.username = ''
   searchForm.phone = ''
-  loadData()
+  pagination.page = 1
+  loadData(false)
 }
+
+watch(() => searchForm.username, debouncedSearch)
+watch(() => searchForm.phone, debouncedSearch)
 
 const handleAdd = () => {
   dialogTitle.value = '新增用户'
@@ -240,11 +264,16 @@ const handleDelete = (row) => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(() => {
-    const index = tableData.value.findIndex(item => item.id === row.id)
-    if (index > -1) {
-      tableData.value.splice(index, 1)
-      ElMessage.success('删除成功')
+  }).then(async () => {
+    try {
+      const res = await userApi.deleteUser(row.id)
+      if (res.success) {
+        ElMessage.success('删除成功')
+        loadData()
+      }
+    } catch (error) {
+      console.error('[Users] 删除用户失败', error)
+      ElMessage.error('删除用户失败')
     }
   }).catch(() => {})
 }
@@ -252,27 +281,31 @@ const handleDelete = (row) => {
 const handleSubmit = async () => {
   if (!userFormRef.value) return
   
-  await userFormRef.value.validate((valid) => {
+  await userFormRef.value.validate(async (valid) => {
     if (valid) {
       submitLoading.value = true
-      setTimeout(() => {
+      try {
         if (userForm.id) {
-          const index = tableData.value.findIndex(item => item.id === userForm.id)
-          if (index > -1) {
-            tableData.value[index] = { ...userForm }
+          const res = await userApi.updateUser(userForm)
+          if (res.success) {
+            ElMessage.success('更新成功')
+            dialogVisible.value = false
+            loadData()
           }
-          ElMessage.success('更新成功')
         } else {
-          userForm.id = tableData.value.length + 1
-          userForm.uid = userForm.login_type === 'phone' ? `1000000${userForm.id}` : null
-          userForm.created_at = new Date().toLocaleString()
-          userForm.last_login = new Date().toLocaleString()
-          tableData.value.push({ ...userForm })
-          ElMessage.success('添加成功')
+          const res = await userApi.addUser(userForm)
+          if (res.success) {
+            ElMessage.success('添加成功')
+            dialogVisible.value = false
+            loadData()
+          }
         }
-        dialogVisible.value = false
+      } catch (error) {
+        console.error('[Users] 提交失败', error)
+        ElMessage.error('提交失败')
+      } finally {
         submitLoading.value = false
-      }, 500)
+      }
     }
   })
 }
@@ -299,15 +332,69 @@ onMounted(() => {
 
 .search-card {
   margin-bottom: 20px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .table-card {
   margin-bottom: 20px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-icon {
+  color: #409EFF;
+  font-size: 18px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.users-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.username {
+  font-weight: 500;
+  color: #333;
+}
+
+.pagination {
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 20px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+:deep(.el-dialog__title) {
+  font-weight: 600;
+  font-size: 18px;
 }
 </style>

@@ -25,5 +25,7 @@ data class RecognitionRecord(
     val is_collected: Boolean,
     val user_id: String,
     val recognition_type: RecognitionType,
-    val sync_status: SyncStatus
+    val sync_status: SyncStatus,
+    val freshness_score: Float? = null,
+    val is_fresh: Boolean? = null
 )

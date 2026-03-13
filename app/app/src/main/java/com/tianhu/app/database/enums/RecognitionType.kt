@@ -2,7 +2,9 @@ package com.tianhu.app.database.enums
 
 enum class RecognitionType(val value: Int) {
     LOCAL(0),
-    CLOUD(1);
+    CLOUD(1),
+    FRUIT_DETECTION(2),
+    FRESHNESS_DETECTION(3);
 
     companion object {
         fun fromValue(value: Int): RecognitionType {

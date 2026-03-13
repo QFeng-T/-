@@ -37,19 +37,31 @@
    - 图片预览功能
    - 置信度进度条显示
 
-5. **主布局**
+5. **模型管理**
+   - 模型上传（支持拖拽上传，格式：.pt, .pth, .onnx, .tflite）
+   - 模型列表展示（支持按平台筛选：后端、Android、全部）
+   - 模型激活（支持后端、Android端、全平台分别激活）
+   - 模型版本管理
+   - 模型详情查看
+   - 模型下载
+   - 模型删除
+   - 准确率进度条显示
+   - 文件大小和状态管理
+
+6. **主布局**
    - 可折叠侧边栏导航
    - 顶部导航栏（面包屑、用户信息、退出登录）
    - 响应式设计
 
-6. **API 服务层**
+7. **API 服务层**
    - 统一的 HTTP 请求封装
    - 请求/响应拦截器
    - 用户 API 接口（预留位置）
    - 识别记录 API 接口（预留位置）
    - 数据统计 API 接口（预留位置）
+   - 模型管理 API 接口（预留位置）
 
-7. **统一反馈机制**
+8. **统一反馈机制**
    - 成功/错误/警告/信息提示
    - 确认对话框
    - 统一的消息样式和时长
@@ -72,14 +84,16 @@ vue/
 │   │   ├── index.js      # HTTP 请求封装
 │   │   ├── user.js       # 用户相关接口
 │   │   ├── record.js     # 识别记录相关接口
-│   │   └── dashboard.js  # 数据统计相关接口
+│   │   ├── dashboard.js  # 数据统计相关接口
+│   │   └── model.js      # 模型管理相关接口
 │   ├── layout/           # 布局组件
 │   │   └── index.vue     # 主布局
 │   ├── views/            # 页面组件
 │   │   ├── login/        # 登录页
 │   │   ├── dashboard/    # 数据统计页
 │   │   ├── users/        # 用户管理页
-│   │   └── records/      # 识别记录页
+│   │   ├── records/      # 识别记录页
+│   │   └── models/       # 模型管理页
 │   ├── router/           # 路由配置
 │   │   └── index.js
 │   ├── utils/            # 工具函数
@@ -145,6 +159,13 @@ npm run preview
 - `getLoginTypeDistribution()` - 获取登录类型分布
 - `getRecognitionTypeDistribution()` - 获取识别类型分布
 - `getRecentRecords()` - 获取最近识别记录
+
+### 模型管理相关接口 (`src/api/model.js`)
+- `getModels(params)` - 获取模型列表
+- `uploadModel(formData, onUploadProgress)` - 上传模型文件
+- `activateModel(id, platform)` - 激活指定平台的模型
+- `deleteModel(id)` - 删除模型
+- `getModelDetail(id)` - 获取模型详情
 
 ## 💡 注意事项
 

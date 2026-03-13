@@ -68,7 +68,6 @@ secrets.*
 # 数据集文件夹（根据你的实际路径调整）
 data/
 datasets/
-models/
 models/experiment_2_unified_freshness/
 *.zip
 *.tar

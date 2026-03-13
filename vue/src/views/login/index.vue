@@ -56,7 +56,7 @@
       <div class="login-footer">
         <div class="tips">
           <el-icon><InfoFilled /></el-icon>
-          <span>默认账号：admin / 密码：123456</span>
+          <span>默认账号：admin / 密码：admin123</span>
         </div>
       </div>
     </div>

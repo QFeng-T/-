@@ -3,31 +3,34 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <color name="primary">#4CAF50</color>
-    <color name="primary_dark">#388E3C</color>
-    <color name="primary_light">#86E57F</color>
-    <color name="primary_gradient_start">#86E57F</color>
-    <color name="primary_gradient_end">#4CAF50</color>
-    <color name="accent">#FF9800</color>
-    <color name="secondary">#2196F3</color>
+    <color name="primary">#10B981</color>
+    <color name="primary_dark">#059669</color>
+    <color name="primary_light">#6EE7B7</color>
+    <color name="primary_gradient_start">#34D399</color>
+    <color name="primary_gradient_end">#10B981</color>
+    <color name="accent">#F59E0B</color>
+    <color name="secondary">#3B82F6</color>
     
-    <color name="text_primary">#333333</color>
-    <color name="text_secondary">#666666</color>
-    <color name="text_tertiary">#999999</color>
-    <color name="divider">#BDBDBD</color>
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_tertiary">#9CA3AF</color>
+    <color name="divider">#E5E7EB</color>
     
-    <color name="background">#F5F5F5</color>
-    <color name="background_gradient_start">#F0F9E6</color>
-    <color name="background_gradient_end">#FAFAF5</color>
+    <color name="background">#F9FAFB</color>
+    <color name="background_gradient_start">#F0FDF4</color>
+    <color name="background_gradient_end">#F9FAFB</color>
     <color name="card_background">#FFFFFF</color>
-    <color name="tag_background">#E8F5E9</color>
+    <color name="tag_background">#D1FAE5</color>
     
-    <color name="success">#4CAF50</color>
-    <color name="warning">#FF9800</color>
-    <color name="error">#F44336</color>
-    <color name="info">#2196F3</color>
+    <color name="success">#10B981</color>
+    <color name="warning">#F59E0B</color>
+    <color name="error">#EF4444</color>
+    <color name="info">#3B82F6</color>
     
-    <color name="fresh_green">#4CAF50</color>
-    <color name="warning_yellow">#FFC107</color>
-    <color name="expired_red">#F44336</color>
+    <color name="fresh_green">#10B981</color>
+    <color name="warning_yellow">#FBBF24</color>
+    <color name="expired_red">#EF4444</color>
+    
+    <color name="shadow">#1A000000</color>
+    <color name="overlay">#80000000</color>
 </resources>

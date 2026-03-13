@@ -27,6 +27,10 @@
           <el-icon><Document /></el-icon>
           <template #title>识别记录</template>
         </el-menu-item>
+        <el-menu-item index="/models">
+          <el-icon><Box /></el-icon>
+          <template #title>模型管理</template>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container class="main-container">
@@ -98,41 +102,44 @@ const handleCommand = (command) => {
 }
 
 .aside {
-  background-color: #304156;
-  transition: width 0.3s;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
 }
 
 .logo {
-  height: 60px;
-  line-height: 60px;
+  height: 64px;
+  line-height: 64px;
   text-align: center;
   color: #fff;
   font-size: 20px;
   font-weight: bold;
-  background-color: #2b3a4a;
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo-icon {
-  font-size: 24px;
+  font-size: 28px;
   color: #409EFF;
 }
 
 .logo-text {
-  font-size: 18px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: 1px;
 }
 
 .main-container {
-  background-color: #f0f2f5;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%);
 }
 
 .header {
@@ -140,35 +147,71 @@ const handleCommand = (command) => {
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  padding: 0 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 0 24px;
+  height: 64px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 
 .collapse-btn {
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
   color: #5a5e66;
+  transition: all 0.3s;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.collapse-btn:hover {
+  color: #409EFF;
+  background: rgba(64, 158, 255, 0.1);
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.user-info:hover {
+  background: rgba(64, 158, 255, 0.1);
 }
 
 .username {
-  color: #606266;
+  color: #333;
+  font-weight: 500;
 }
 
 .main {
-  padding: 20px;
+  padding: 24px;
   overflow-y: auto;
+}
+
+:deep(.el-menu) {
+  border-right: none;
+}
+
+:deep(.el-menu-item) {
+  margin: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+:deep(.el-menu-item:hover) {
+  background: rgba(64, 158, 255, 0.1) !important;
+}
+
+:deep(.el-menu-item.is-active) {
+  background: linear-gradient(90deg, rgba(64, 158, 255, 0.3) 0%, rgba(64, 158, 255, 0.1) 100%) !important;
+  color: #409EFF !important;
 }
 </style>

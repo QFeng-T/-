@@ -30,6 +30,12 @@ const routes = [
         name: 'Records',
         component: () => import('@/views/records/index.vue'),
         meta: { title: '识别记录', icon: 'Document' }
+      },
+      {
+        path: 'models',
+        name: 'Models',
+        component: () => import('@/views/models/index.vue'),
+        meta: { title: '模型管理', icon: 'Box' }
       }
     ]
   }

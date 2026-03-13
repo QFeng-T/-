@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_card">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="手机号登录"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary" />
+
+    <EditText
+        android:id="@+id/phoneEditText"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:hint="请输入手机号"
+        android:inputType="phone"
+        android:background="@drawable/bg_search"
+        android:paddingHorizontal="16dp"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_tertiary"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/codeEditText"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:background="@drawable/bg_search"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_tertiary"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/sendCodeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginStart="12dp"
+            android:text="获取验证码"
+            android:textSize="14sp"
+            android:background="@drawable/btn_accent"
+            android:textColor="@color/white"
+            android:paddingHorizontal="16dp"
+            android:elevation="0dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:text="登录"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/btn_primary"
+        android:textColor="@color/white"
+        android:elevation="2dp" />
+
+</LinearLayout>
